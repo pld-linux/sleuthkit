@@ -4,7 +4,7 @@
 #	- pl desc
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
-Summary(pl):	The Sleuth Kit - zestaw narzêdzi wspomagaj±cych analizê systemów plików
+Summary(pl.UTF-8):   The Sleuth Kit - zestaw narzÄ™dzi wspomagajÄ…cych analizÄ™ systemÃ³w plikÃ³w
 Name:		sleuthkit
 Version:	2.06
 Release:	0.1
@@ -40,23 +40,23 @@ checks.
 As with any investigation tool, any results found with The Sleuth
 Kit should be be recreated with a second tool to verify the data.
 
-%description -l pl
-The Sleuth Kit to maj±cy otwarte ¼ród³a zestaw narzêdzi do analizy
-systemów plików i dysków z systemami Microsoftu i uniksowymi. The
-Sleuth Kit umo¿liwia badaj±cym zidentyfikowaæ i odtworzyæ dowody
-uzyskane podczas reakcji na incydent lub z ¿ywych systemów. The
-Sleuth Kit ma otwarte ¼ród³a, co pozwala badaj±cym zweryfikowaæ
-dzia³ania narzêdzia lub przystosowaæ je do okre¶lonych potrzeb.
+%description -l pl.UTF-8
+The Sleuth Kit to majÄ…cy otwarte ÅºrÃ³dÅ‚a zestaw narzÄ™dzi do analizy
+systemÃ³w plikÃ³w i dyskÃ³w z systemami Microsoftu i uniksowymi. The
+Sleuth Kit umoÅ¼liwia badajÄ…cym zidentyfikowaÄ‡ i odtworzyÄ‡ dowody
+uzyskane podczas reakcji na incydent lub z Å¼ywych systemÃ³w. The
+Sleuth Kit ma otwarte ÅºrÃ³dÅ‚a, co pozwala badajÄ…cym zweryfikowaÄ‡
+dziaÅ‚ania narzÄ™dzia lub przystosowaÄ‡ je do okreÅ›lonych potrzeb.
 
-Zalecane jest u¿ywanie tych narzêdzi dzia³aj±cych z linii poleceñ wraz
-z przegl±dark± Autopsy (<http://www.sleuthkit.org/autopsy/>), bêd±c±
-graficznym interfejsem do narzêdzi z The Sleuth Kit i automatyzuj±c±
-wiele procedur oraz udostêpniaj±c± mo¿liwo¶ci takie jak przeszukiwanie
-obrazów i sprawdzanie integralno¶ci obrazów za pomoc± sum MD5.
+Zalecane jest uÅ¼ywanie tych narzÄ™dzi dziaÅ‚ajÄ…cych z linii poleceÅ„ wraz
+z przeglÄ…darkÄ… Autopsy (<http://www.sleuthkit.org/autopsy/>), bÄ™dÄ…cÄ…
+graficznym interfejsem do narzÄ™dzi z The Sleuth Kit i automatyzujÄ…cÄ…
+wiele procedur oraz udostÄ™pniajÄ…cÄ… moÅ¼liwoÅ›ci takie jak przeszukiwanie
+obrazÃ³w i sprawdzanie integralnoÅ›ci obrazÃ³w za pomocÄ… sum MD5.
 
-Podobnie jak przy dowolnym narzêdziu badawczym wszelkie wyniki
-uzyskane przy u¿yciu tego zestawu powinny byæ odtworzone przy u¿yciu
-drugiego narzêdzia dla zweryfikowania wiarygodno¶ci.
+Podobnie jak przy dowolnym narzÄ™dziu badawczym wszelkie wyniki
+uzyskane przy uÅ¼yciu tego zestawu powinny byÄ‡ odtworzone przy uÅ¼yciu
+drugiego narzÄ™dzia dla zweryfikowania wiarygodnoÅ›ci.
 
 %prep
 %setup -q
