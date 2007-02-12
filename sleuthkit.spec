@@ -4,7 +4,7 @@
 #	- pl desc
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
-Summary(pl.UTF-8):   The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
+Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
 Version:	2.06
 Release:	0.1
