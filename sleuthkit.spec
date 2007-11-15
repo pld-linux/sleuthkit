@@ -1,17 +1,16 @@
 #
 # TODO	- autopsy compliance
 #	- noarch or optflags?
-#	- pl desc
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	2.06
+Version:	2.09
 Release:	0.1
 License:	IBM Public License/Common Public License
 Group:		Applications
 Source0:	http://dl.sourceforge.net/sleuthkit/%{name}-%{version}.tar.gz
-# Source0-md5:	13e0d252df9e7a1d17da0db1b224c114
+# Source0-md5:	7a7b50e089c1807956146a50621b7441
 URL:		http://www.sleuthkit.org/sleuthkit/
 BuildRequires:	openssl-devel
 BuildRequires:	perl-base
