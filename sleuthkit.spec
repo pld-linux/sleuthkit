@@ -1,12 +1,13 @@
 #
 # TODO	- autopsy compliance
 #	- noarch or optflags?
+#	- up to 3.0
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
 Version:	2.09
-Release:	1
+Release:	2
 License:	IBM Public License/Common Public License
 Group:		Applications
 Source0:	http://dl.sourceforge.net/sleuthkit/%{name}-%{version}.tar.gz
@@ -72,6 +73,8 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 install -d $RPM_BUILD_ROOT%{_mandir}/man{1,3,4}
 
 install bin/* $RPM_BUILD_ROOT%{_bindir}
+
+mv man/man3/libmagic.3 man/man3/tsk_libmagic.3
 
 install man/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
 install man/man3/* $RPM_BUILD_ROOT%{_mandir}/man3
