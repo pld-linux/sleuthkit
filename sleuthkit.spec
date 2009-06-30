@@ -1,17 +1,16 @@
 #
 # TODO	- autopsy compliance
 #	- noarch or optflags?
-#	- up to 3.0
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	2.09
-Release:	2
+Version:	3.0.1
+Release:	1
 License:	IBM Public License/Common Public License
 Group:		Applications
 Source0:	http://dl.sourceforge.net/sleuthkit/%{name}-%{version}.tar.gz
-# Source0-md5:	7a7b50e089c1807956146a50621b7441
+# Source0-md5:	55956dd3bbfa6c9e2ebcc685c2a9569d
 URL:		http://www.sleuthkit.org/sleuthkit/
 BuildRequires:	openssl-devel
 BuildRequires:	perl-base
@@ -21,9 +20,6 @@ Requires:	file
 Requires:	openssl
 Requires:	perl-Date-Manip
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-# paralell build/ld crashes (tested on carme), -j1 makes it build.
-%define		__make	/usr/bin/make -j1
 
 %description
 The Sleuth Kit is an open source forensic toolkit for analyzing
@@ -65,36 +61,45 @@ drugiego narzędzia dla zweryfikowania wiarygodności.
 %setup -q
 
 %build
+
+%configure
+
 %{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_bindir}
-install -d $RPM_BUILD_ROOT%{_mandir}/man{1,3,4}
 
-install bin/* $RPM_BUILD_ROOT%{_bindir}
-
-mv man/man3/libmagic.3 man/man3/tsk_libmagic.3
-
-install man/man1/* $RPM_BUILD_ROOT%{_mandir}/man1
-install man/man3/* $RPM_BUILD_ROOT%{_mandir}/man3
-install man/man4/* $RPM_BUILD_ROOT%{_mandir}/man4
-
-# we use the system file tool
-
-rm $RPM_BUILD_ROOT%{_bindir}/file
-rm $RPM_BUILD_ROOT%{_mandir}/man1/file.1
-
-# for Date-Manip stuff look for the perl-Date-Manip package
-# for libmagic stuff look for libmagic-{,devel} package
+%{__make} install \
+     DESTDIR=$RPM_BUILD_ROOT
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.txt docs/* tct.docs/* licenses/* 
+%doc README.txt CHANGES.txt docs/* licenses/* 
 %attr(755,root,root) %{_bindir}/*
 %{_mandir}/man1/*
-%{_mandir}/man3/*
-%{_mandir}/man4/*
+%{_libdir}/libtsk3.*
+
+%dir %{_includedir}/tsk3
+%dir %{_includedir}/tsk3/base
+%dir %{_includedir}/tsk3/fs
+%dir %{_includedir}/tsk3/hashdb
+%dir %{_includedir}/tsk3/img
+%dir %{_includedir}/tsk3/vs
+%{_includedir}/tsk3/*.h
+%{_includedir}/tsk3/base/*.h
+%{_includedir}/tsk3/fs/*.h
+%{_includedir}/tsk3/hashdb/*.h
+%{_includedir}/tsk3/img/*.h
+%{_includedir}/tsk3/vs/*.h
+
+%dir %{_datadir}/tsk3
+%{_datadir}/tsk3/sorter/default.sort
+%{_datadir}/tsk3/sorter/freebsd.sort
+%{_datadir}/tsk3/sorter/images.sort
+%{_datadir}/tsk3/sorter/linux.sort
+%{_datadir}/tsk3/sorter/openbsd.sort
+%{_datadir}/tsk3/sorter/solaris.sort
+%{_datadir}/tsk3/sorter/windows.sort
