@@ -96,6 +96,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/tsk3/vs/*.h
 
 %dir %{_datadir}/tsk3
+%dir %{_datadir}/tsk3/sorter
 %{_datadir}/tsk3/sorter/default.sort
 %{_datadir}/tsk3/sorter/freebsd.sort
 %{_datadir}/tsk3/sorter/images.sort
