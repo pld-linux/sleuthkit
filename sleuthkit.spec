@@ -1,6 +1,7 @@
 #
-# TODO	- autopsy compliance
-#	- noarch or optflags?
+# TODO:
+#	- optflags?
+#	- add afflib ewf bconds (and prepare afflib and ewf packages :)
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
@@ -62,7 +63,9 @@ drugiego narzędzia dla zweryfikowania wiarygodności.
 
 %build
 
-%configure
+%configure \
+	--disable-afflib \
+	--disable-ewf
 
 %{__make}
 
