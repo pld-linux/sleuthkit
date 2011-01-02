@@ -1,20 +1,25 @@
 #
 # TODO:
-#	- optflags?
-#	- add afflib ewf bconds (and prepare afflib and ewf packages :)
+#	- devel, libs and static subpackages
+#	- add afflib bcond (and prepare afflib package :)
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	3.1.3
+Version:	3.2.0
 Release:	1
 License:	IBM Public License/Common Public License
 Group:		Applications
 Source0:	http://dl.sourceforge.net/sleuthkit/%{name}-%{version}.tar.gz
-# Source0-md5:	e1798bede2112ec4c5770151c3e32bfd
+# Source0-md5:	05517963942aa92be77c05ca1c47f0de
 URL:		http://www.sleuthkit.org/sleuthkit/
+#BuildRequires:	autoconf
+#BuildRequires:	automake
+BuildRequires:	libewf-devel
+#BuildRequires:	libtool
 BuildRequires:	openssl-devel
 BuildRequires:	perl-base
+BuildRequires:	sed >= 4.0
 Requires:	coreutils
 Requires:	file
 # XXX: openssl library (should be autodetected) or openssl-tools or perl-OpenSSL-??? ?
@@ -60,13 +65,13 @@ drugiego narzędzia dla zweryfikowania wiarygodności.
 
 %prep
 %setup -q
+sed -i -e 's/-static//' {samples,tests,tools/*tools}/Makefile.in
 
 %build
-
 %configure \
-	--disable-afflib \
-	--disable-ewf
+	--without-afflib
 
+sed -i -e 's/^\(LIBS = -lewf\)/\1 -ldl -lpthread/' {tools/autotools,tsk3}/Makefile
 %{__make}
 
 %install
@@ -75,35 +80,16 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
      DESTDIR=$RPM_BUILD_ROOT
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.txt NEWS.txt licenses/* 
+%doc NEWS.txt README.txt licenses/* 
 %attr(755,root,root) %{_bindir}/*
-%{_mandir}/man1/*
+%{_datadir}/tsk3
+%{_includedir}/tsk3
 %{_libdir}/libtsk3.*
-
-%dir %{_includedir}/tsk3
-%dir %{_includedir}/tsk3/base
-%dir %{_includedir}/tsk3/fs
-%dir %{_includedir}/tsk3/hashdb
-%dir %{_includedir}/tsk3/img
-%dir %{_includedir}/tsk3/vs
-%{_includedir}/tsk3/*.h
-%{_includedir}/tsk3/base/*.h
-%{_includedir}/tsk3/fs/*.h
-%{_includedir}/tsk3/hashdb/*.h
-%{_includedir}/tsk3/img/*.h
-%{_includedir}/tsk3/vs/*.h
-
-%dir %{_datadir}/tsk3
-%dir %{_datadir}/tsk3/sorter
-%{_datadir}/tsk3/sorter/default.sort
-%{_datadir}/tsk3/sorter/freebsd.sort
-%{_datadir}/tsk3/sorter/images.sort
-%{_datadir}/tsk3/sorter/linux.sort
-%{_datadir}/tsk3/sorter/openbsd.sort
-%{_datadir}/tsk3/sorter/solaris.sort
-%{_datadir}/tsk3/sorter/windows.sort
+%{_mandir}/man1/*
