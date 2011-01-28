@@ -10,12 +10,13 @@ Version:	3.2.0
 Release:	1
 License:	IBM Public License/Common Public License
 Group:		Applications
-Source0:	http://dl.sourceforge.net/sleuthkit/%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/sleuthkit/%{name}-%{version}.tar.gz
 # Source0-md5:	05517963942aa92be77c05ca1c47f0de
 URL:		http://www.sleuthkit.org/sleuthkit/
 #BuildRequires:	autoconf
 #BuildRequires:	automake
 BuildRequires:	libewf-devel
+BuildRequires:	libstdc++-devel
 #BuildRequires:	libtool
 BuildRequires:	openssl-devel
 BuildRequires:	perl-base
@@ -35,23 +36,23 @@ during incident response or from live systems. The Sleuth Kit is open
 source, which allows investigators to verify the actions of the tool
 or customize it to specific needs.
 
-It is recommended that these command line tools can be used with
-the Autopsy Forensic Browser. Autopsy,
+It is recommended that these command line tools can be used with the
+Autopsy Forensic Browser. Autopsy,
 (<http://www.sleuthkit.org/autopsy/>), is a graphical interface to the
 tools of The Sleuth Kit and automates many of the procedures and
 provides features such as image searching and MD5 image integrity
 checks.
 
-As with any investigation tool, any results found with The Sleuth
-Kit should be be recreated with a second tool to verify the data.
+As with any investigation tool, any results found with The Sleuth Kit
+should be be recreated with a second tool to verify the data.
 
 %description -l pl.UTF-8
 The Sleuth Kit to mający otwarte źródła zestaw narzędzi do analizy
 systemów plików i dysków z systemami Microsoftu i uniksowymi. The
 Sleuth Kit umożliwia badającym zidentyfikować i odtworzyć dowody
-uzyskane podczas reakcji na incydent lub z żywych systemów. The
-Sleuth Kit ma otwarte źródła, co pozwala badającym zweryfikować
-działania narzędzia lub przystosować je do określonych potrzeb.
+uzyskane podczas reakcji na incydent lub z żywych systemów. The Sleuth
+Kit ma otwarte źródła, co pozwala badającym zweryfikować działania
+narzędzia lub przystosować je do określonych potrzeb.
 
 Zalecane jest używanie tych narzędzi działających z linii poleceń wraz
 z przeglądarką Autopsy (<http://www.sleuthkit.org/autopsy/>), będącą
@@ -87,7 +88,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc NEWS.txt README.txt licenses/* 
+%doc NEWS.txt README.txt licenses/*
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/tsk3
 %{_includedir}/tsk3
