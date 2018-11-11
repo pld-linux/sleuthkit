@@ -1,6 +1,6 @@
 #
 # TODO:
-#	- devel, libs and static subpackages
+#	- devel, java, libs and static subpackages
 #	- add afflib bcond (and prepare afflib package :)
 #	- add libvhdi bcond and support
 #	- add libvmdk bcond and support
