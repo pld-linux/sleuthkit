@@ -2,16 +2,18 @@
 # TODO:
 #	- devel, libs and static subpackages
 #	- add afflib bcond (and prepare afflib package :)
+#	- add libvhdi bcond and support
+#	- add libvmdk bcond and support
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	3.2.3
-Release:	3
+Version:	4.6.4
+Release:	1
 License:	IBM Public License/Common Public License
 Group:		Applications
-Source0:	http://downloads.sourceforge.net/sleuthkit/%{name}-%{version}.tar.gz
-# Source0-md5:	29465ebe32cfeb5f0cab83e4e93823c5
+Source0:	https://github.com/sleuthkit/sleuthkit/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	56c7496ce21be93f81202e10eadc6c2e
 URL:		http://www.sleuthkit.org/sleuthkit/
 #BuildRequires:	autoconf
 #BuildRequires:	automake
@@ -72,7 +74,7 @@ sed -i -e 's/-static//' {samples,tests,tools/*tools}/Makefile.in
 %configure \
 	--without-afflib
 
-sed -i -e 's/^\(LIBS = -lewf\)/\1 -ldl -lpthread/' {tools/autotools,tsk3}/Makefile
+sed -i -e 's/^\(LIBS = -lewf\)/\1 -ldl -lpthread/' {tools/autotools,tsk}/Makefile
 %{__make}
 
 %install
@@ -88,9 +90,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc NEWS.txt README.txt licenses/*
+%doc API-CHANGES.txt ChangeLog.txt NEWS.txt README.md licenses/*
 %attr(755,root,root) %{_bindir}/*
-%{_datadir}/tsk3
-%{_includedir}/tsk3
-%{_libdir}/libtsk3.*
+%{_datadir}/tsk
+%{_includedir}/tsk
+%{_libdir}/libtsk.*
+%{_libdir}/libtsk_jni.*
 %{_mandir}/man1/*
+%{_javadir}/%{name}-%{version}.jar
