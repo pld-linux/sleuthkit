@@ -1,9 +1,11 @@
 #
 # TODO:
-#	- devel, java, libs and static subpackages
-#	- add afflib bcond (and prepare afflib package :)
+#	- devel, libs and static subpackages
 #	- add libvhdi bcond and support
 #	- add libvmdk bcond and support
+#
+# Conditional build:
+%bcond_without	aff		# Without Advanced Forensic Format (aff) support
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
@@ -17,6 +19,7 @@ Source0:	https://github.com/sleuthkit/sleuthkit/releases/download/%{name}-%{vers
 URL:		http://www.sleuthkit.org/sleuthkit/
 #BuildRequires:	autoconf
 #BuildRequires:	automake
+%{?with_aff:BuildRequires:	afflib-devel}
 BuildRequires:	libewf-devel
 BuildRequires:	libstdc++-devel
 #BuildRequires:	libtool
@@ -84,7 +87,7 @@ sed -i -e 's/-static//' {samples,tests,tools/*tools}/Makefile.in
 
 %build
 %configure \
-	--without-afflib
+	%{!?with_aff:--without-afflib}
 
 sed -i -e 's/^\(LIBS = -lewf\)/\1 -ldl -lpthread/' {tools/autotools,tsk}/Makefile
 %{__make}
