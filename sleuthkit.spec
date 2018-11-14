@@ -1,6 +1,5 @@
 #
 # TODO:
-#	- devel, libs and static subpackages
 #	- add libvhdi bcond and support
 #	- add libvmdk bcond and support
 #
@@ -17,9 +16,9 @@ Group:		Applications
 Source0:	https://github.com/sleuthkit/sleuthkit/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	56c7496ce21be93f81202e10eadc6c2e
 URL:		http://www.sleuthkit.org/sleuthkit/
+%{?with_aff:BuildRequires:	afflib-devel}
 #BuildRequires:	autoconf
 #BuildRequires:	automake
-%{?with_aff:BuildRequires:	afflib-devel}
 BuildRequires:	libewf-devel
 BuildRequires:	libstdc++-devel
 #BuildRequires:	libtool
@@ -69,6 +68,53 @@ Podobnie jak przy dowolnym narzędziu badawczym wszelkie wyniki
 uzyskane przy użyciu tego zestawu powinny być odtworzone przy użyciu
 drugiego narzędzia dla zweryfikowania wiarygodności.
 
+%package libs
+Summary:	Sleuthkit shared library
+Summary(pl.UTF-8):	Biblioteka współdzielona Sleuthkita
+Group:		Libraries
+
+%description libs
+Sleuthkit shared library.
+
+%description libs -l pl.UTF-8
+Biblioteka współdzielona Sleuthkita.
+
+%package devel
+Summary:	Header files for %{name} library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki %{name}
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description devel
+Header files for %{name} library.
+
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki %{name}.
+
+%package devel
+Summary:	Header files for %{name} library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki %{name}
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description devel
+Header files for %{name} library.
+
+%description devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki %{name}.
+
+%package static
+Summary:	Static %{name} library
+Summary(pl.UTF-8):	Statyczna biblioteka %{name}
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description static
+Static %{name} library.
+
+%description static -l pl.UTF-8
+Statyczna biblioteka %{name}.
+
 %package java
 Summary:	Java bindings for sleuthkit
 Summary(pl.UTF-8):	Dowiązania Javy do sleuthkit
@@ -98,8 +144,6 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
      DESTDIR=$RPM_BUILD_ROOT
 
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -108,10 +152,28 @@ rm -rf $RPM_BUILD_ROOT
 %doc API-CHANGES.txt ChangeLog.txt NEWS.txt README.md licenses/*
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/tsk
-%{_includedir}/tsk
-%{_libdir}/libtsk.*
-%{_libdir}/libtsk_jni.*
 %{_mandir}/man1/*
+
+%files libs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libtsk.so.*.*.*
+%attr(755,root,root) %{_libdir}/libtsk_jni.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libtsk.so.13
+%attr(755,root,root) %ghost %{_libdir}/libtsk_jni.so.0
+
+%files devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libtsk.so
+%attr(755,root,root) %{_libdir}/libtsk_jni.so
+%{_libdir}/libtsk.la
+%{_libdir}/libtsk_jni.la
+%{_includedir}/tsk
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/libtsk.a
+%{_libdir}/libtsk_jni.a
+
 
 %files java
 %defattr(644,root,root,755)
