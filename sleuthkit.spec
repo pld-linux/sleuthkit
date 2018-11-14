@@ -66,6 +66,18 @@ Podobnie jak przy dowolnym narzędziu badawczym wszelkie wyniki
 uzyskane przy użyciu tego zestawu powinny być odtworzone przy użyciu
 drugiego narzędzia dla zweryfikowania wiarygodności.
 
+%package java
+Summary:	Java bindings for sleuthkit
+Summary(pl.UTF-8):	Dowiązania Javy do sleuthkit
+Group:		Development/Languages/Java
+Requires:	%{name} = %{version}-%{release}
+
+%description java
+Java bindings for sleuthkit.
+
+%description java -l pl.UTF-8
+Dowiązania Javy do sleuthkit.
+
 %prep
 %setup -q
 sed -i -e 's/-static//' {samples,tests,tools/*tools}/Makefile.in
@@ -97,4 +109,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libtsk.*
 %{_libdir}/libtsk_jni.*
 %{_mandir}/man1/*
+
+%files java
+%defattr(644,root,root,755)
 %{_javadir}/%{name}-%{version}.jar
