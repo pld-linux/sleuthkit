@@ -9,12 +9,12 @@
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	4.6.4
+Version:	4.6.7
 Release:	1
 License:	IBM Public License/Common Public License
 Group:		Applications
 Source0:	https://github.com/sleuthkit/sleuthkit/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	56c7496ce21be93f81202e10eadc6c2e
+# Source0-md5:	173216be56d73c89a04631607068af80
 URL:		http://www.sleuthkit.org/sleuthkit/
 %{?with_aff:BuildRequires:	afflib-devel}
 #BuildRequires:	autoconf
