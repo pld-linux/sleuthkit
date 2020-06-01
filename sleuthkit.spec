@@ -5,6 +5,7 @@
 #
 # Conditional build:
 %bcond_without	aff		# Without Advanced Forensic Format (aff) support
+%bcond_with	java		# Build Java bindings and jar file
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
@@ -140,7 +141,8 @@ Dowiązania Javy do sleuthkit.
 %{__autoheader}
 %{__automake}
 %configure \
-	%{!?with_aff:--without-afflib}
+	%{!?with_aff:--without-afflib} \
+	%{!?with_java:--disable-java}
 
 %{__sed} -i -e 's/^\(LIBS = -lewf\)/\1 -ldl -lpthread/' {tools/autotools,tsk}/Makefile
 
@@ -165,24 +167,29 @@ rm -rf $RPM_BUILD_ROOT
 %files libs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtsk.so.*.*.*
-%attr(755,root,root) %{_libdir}/libtsk_jni.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtsk.so.19
+%if %{with java}
+%attr(755,root,root) %{_libdir}/libtsk_jni.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libtsk_jni.so.0
+%endif
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtsk.so
-%attr(755,root,root) %{_libdir}/libtsk_jni.so
 %{_libdir}/libtsk.la
+%if %{with java}
+%attr(755,root,root) %{_libdir}/libtsk_jni.so
 %{_libdir}/libtsk_jni.la
+%endif
 %{_includedir}/tsk
 
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libtsk.a
-%{_libdir}/libtsk_jni.a
+%{?with_java:%{_libdir}/libtsk_jni.a}
 
-
+%if %{with java}
 %files java
 %defattr(644,root,root,755)
 %{_javadir}/%{name}-%{version}.jar
+%endif
