@@ -9,12 +9,13 @@
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	4.6.7
+Version:	4.9.0
 Release:	1
 License:	IBM Public License/Common Public License
 Group:		Applications
 Source0:	https://github.com/sleuthkit/sleuthkit/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	173216be56d73c89a04631607068af80
+# Source0-md5:	01f04162de36cd23038a9d8f75b1c48a
+Patch0:		libewf.patch
 URL:		http://www.sleuthkit.org/sleuthkit/
 %{?with_aff:BuildRequires:	afflib-devel}
 #BuildRequires:	autoconf
@@ -129,13 +130,20 @@ Dowiązania Javy do sleuthkit.
 
 %prep
 %setup -q
-sed -i -e 's/-static//' {samples,tests,tools/*tools}/Makefile.in
+%patch0 -p1
+
+%{__sed} -i -e 's/-static//' {samples,tests,tools/*tools}/Makefile.in
 
 %build
+%{__aclocal}
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	%{!?with_aff:--without-afflib}
 
-sed -i -e 's/^\(LIBS = -lewf\)/\1 -ldl -lpthread/' {tools/autotools,tsk}/Makefile
+%{__sed} -i -e 's/^\(LIBS = -lewf\)/\1 -ldl -lpthread/' {tools/autotools,tsk}/Makefile
+
 %{__make}
 
 %install
@@ -158,7 +166,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtsk.so.*.*.*
 %attr(755,root,root) %{_libdir}/libtsk_jni.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtsk.so.13
+%attr(755,root,root) %ghost %{_libdir}/libtsk.so.19
 %attr(755,root,root) %ghost %{_libdir}/libtsk_jni.so.0
 
 %files devel

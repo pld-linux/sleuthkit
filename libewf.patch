@@ -1,0 +1,26 @@
+--- sleuthkit-4.6.7/tsk/img/ewf.cpp~	2020-05-01 04:05:39.000000000 +0200
++++ sleuthkit-4.6.7/tsk/img/ewf.cpp	2020-06-01 09:29:02.700329814 +0200
+@@ -67,8 +67,13 @@
+ 
+     tsk_take_lock(&(ewf_info->read_lock));
+ #if defined( HAVE_LIBEWF_V2_API )
++#if defined( HAVE_LIBEWF_HANDLE_READ_BUFFER_AT_OFFSET )
++    cnt = libewf_handle_read_buffer_at_offset(ewf_info->handle,
++        buf, len, offset, &ewf_error);
++#else
+     cnt = libewf_handle_read_random(ewf_info->handle,
+         buf, len, offset, &ewf_error);
++#endif
+     if (cnt < 0) {
+         char *errmsg = NULL;
+         tsk_error_reset();
+--- sleuthkit-4.6.7/configure.ac~	2020-06-01 09:35:55.000000000 +0200
++++ sleuthkit-4.6.7/configure.ac	2020-06-01 09:38:05.671729514 +0200
+@@ -252,6 +250,7 @@
+     [AC_CHECK_HEADERS([libewf.h],
+       [AC_CHECK_LIB([ewf], [libewf_get_version], [], [NO_LIBEWF=true])]
+     )]
++    AC_CHECK_FUNCS([libewf_handle_read_buffer_at_offset libewf_handle_write_buffer_at_offset])
+ )
+ AS_IF([test "x$ac_cv_lib_ewf_libewf_get_version" = "xyes"], [ax_libewf=yes], [ax_libewf=no])
+ 
