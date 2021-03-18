@@ -10,27 +10,28 @@
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	4.9.0
+Version:	4.10.1
 Release:	1
 License:	IBM Public License/Common Public License
 Group:		Applications
 Source0:	https://github.com/sleuthkit/sleuthkit/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	01f04162de36cd23038a9d8f75b1c48a
+# Source0-md5:	c37bb35897a471c52ec18e0cbb807e9e
 Patch0:		libewf.patch
 URL:		http://www.sleuthkit.org/sleuthkit/
 %{?with_aff:BuildRequires:	afflib-devel}
-#BuildRequires:	autoconf
-#BuildRequires:	automake
+BuildRequires:	autoconf >= 2.59
+BuildRequires:	automake
+BuildRequires:	cppunit-devel >= 1.12.1
 BuildRequires:	libewf-devel
-BuildRequires:	libstdc++-devel
-#BuildRequires:	libtool
-BuildRequires:	openssl-devel
+BuildRequires:	libstdc++-devel >= 6:5
+BuildRequires:	libtool
+#BuildRequires:	openssl-devel
 BuildRequires:	perl-base
 BuildRequires:	sed >= 4.0
+BuildRequires:	sqlite3-devel >= 3
+BuildRequires:	zlib-devel
 Requires:	coreutils
 Requires:	file
-# XXX: openssl library (should be autodetected) or openssl-tools or perl-OpenSSL-??? ?
-Requires:	openssl
 Requires:	perl-Date-Manip
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -136,7 +137,8 @@ Dowiązania Javy do sleuthkit.
 %{__sed} -i -e 's/-static//' {samples,tests,tools/*tools}/Makefile.in
 
 %build
-%{__aclocal}
+%{__libtoolize}
+%{__aclocal} -I m4
 %{__autoconf}
 %{__autoheader}
 %{__automake}
@@ -160,9 +162,67 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc API-CHANGES.txt ChangeLog.txt NEWS.txt README.md licenses/*
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/blkcalc
+%attr(755,root,root) %{_bindir}/blkcat
+%attr(755,root,root) %{_bindir}/blkls
+%attr(755,root,root) %{_bindir}/blkstat
+%attr(755,root,root) %{_bindir}/fcat
+%attr(755,root,root) %{_bindir}/ffind
+%attr(755,root,root) %{_bindir}/fiwalk
+%attr(755,root,root) %{_bindir}/fls
+%attr(755,root,root) %{_bindir}/fsstat
+%attr(755,root,root) %{_bindir}/hfind
+%attr(755,root,root) %{_bindir}/icat
+%attr(755,root,root) %{_bindir}/ifind
+%attr(755,root,root) %{_bindir}/ils
+%attr(755,root,root) %{_bindir}/img_cat
+%attr(755,root,root) %{_bindir}/img_stat
+%attr(755,root,root) %{_bindir}/istat
+%attr(755,root,root) %{_bindir}/jcat
+%attr(755,root,root) %{_bindir}/jls
+%attr(755,root,root) %{_bindir}/jpeg_extract
+%attr(755,root,root) %{_bindir}/mactime
+%attr(755,root,root) %{_bindir}/mmcat
+%attr(755,root,root) %{_bindir}/mmls
+%attr(755,root,root) %{_bindir}/mmstat
+%attr(755,root,root) %{_bindir}/pstat
+%attr(755,root,root) %{_bindir}/sigfind
+%attr(755,root,root) %{_bindir}/sorter
+%attr(755,root,root) %{_bindir}/srch_strings
+%attr(755,root,root) %{_bindir}/tsk_comparedir
+%attr(755,root,root) %{_bindir}/tsk_gettimes
+%attr(755,root,root) %{_bindir}/tsk_loaddb
+%attr(755,root,root) %{_bindir}/tsk_recover
+%attr(755,root,root) %{_bindir}/usnjls
 %{_datadir}/tsk
-%{_mandir}/man1/*
+%{_mandir}/man1/blkcalc.1*
+%{_mandir}/man1/blkcat.1*
+%{_mandir}/man1/blkls.1*
+%{_mandir}/man1/blkstat.1*
+%{_mandir}/man1/fcat.1*
+%{_mandir}/man1/ffind.1*
+%{_mandir}/man1/fls.1*
+%{_mandir}/man1/fsstat.1*
+%{_mandir}/man1/hfind.1*
+%{_mandir}/man1/icat.1*
+%{_mandir}/man1/ifind.1*
+%{_mandir}/man1/ils.1*
+%{_mandir}/man1/img_cat.1*
+%{_mandir}/man1/img_stat.1*
+%{_mandir}/man1/istat.1*
+%{_mandir}/man1/jcat.1*
+%{_mandir}/man1/jls.1*
+%{_mandir}/man1/mactime.1*
+%{_mandir}/man1/mmcat.1*
+%{_mandir}/man1/mmls.1*
+%{_mandir}/man1/mmstat.1*
+%{_mandir}/man1/sigfind.1*
+%{_mandir}/man1/sorter.1*
+%{_mandir}/man1/tsk_comparedir.1*
+%{_mandir}/man1/tsk_gettimes.1*
+%{_mandir}/man1/tsk_loaddb.1*
+%{_mandir}/man1/tsk_recover.1*
+%{_mandir}/man1/usnjls.1*
 
 %files libs
 %defattr(644,root,root,755)
