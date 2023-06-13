@@ -94,18 +94,6 @@ Header files for %{name} library.
 %description devel -l pl.UTF-8
 Pliki nagłówkowe biblioteki %{name}.
 
-%package devel
-Summary:	Header files for %{name} library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki %{name}
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-
-%description devel
-Header files for %{name} library.
-
-%description devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki %{name}.
-
 %package static
 Summary:	Static %{name} library
 Summary(pl.UTF-8):	Statyczna biblioteka %{name}
