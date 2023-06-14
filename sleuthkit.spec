@@ -87,6 +87,11 @@ Summary:	Header files for %{name} library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki %{name}
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
+%{?with_aff:Requires:	afflib-devel}
+Requires:	libewf-devel
+Requires:	libstdc++-devel >= 6:5
+Requires:	sqlite3-devel >= 3
+Requires:	zlib-devel
 
 %description devel
 Header files for %{name} library.
