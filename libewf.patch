@@ -14,13 +14,15 @@
      if (cnt < 0) {
          char *errmsg = NULL;
          tsk_error_reset();
---- sleuthkit-4.6.7/configure.ac~	2020-06-01 09:35:55.000000000 +0200
-+++ sleuthkit-4.6.7/configure.ac	2020-06-01 09:38:05.671729514 +0200
-@@ -252,6 +250,7 @@
-     [AC_CHECK_HEADERS([libewf.h],
-       [AC_CHECK_LIB([ewf], [libewf_get_version], [], [NO_LIBEWF=true])]
-     )]
-+    AC_CHECK_FUNCS([libewf_handle_read_buffer_at_offset libewf_handle_write_buffer_at_offset])
- )
- AS_IF([test "x$ac_cv_lib_ewf_libewf_get_version" = "xyes"], [ax_libewf=yes], [ax_libewf=no])
- 
+--- sleuthkit-4.12.0/configure.ac.orig	2023-06-18 10:11:54.933025146 +0200
++++ sleuthkit-4.12.0/configure.ac	2023-06-18 11:50:09.761090122 +0200
+@@ -164,6 +164,9 @@ dnl Check if we should link with libbfio
+ TSK_OPT_DEP_CHECK([libbfio], [], [libbfio], [libbfio.h], [bfio], [libbfio_get_version])
+ dnl Check if we should link with libewf
+ TSK_OPT_DEP_CHECK([libewf], [EWF], [libewf], [libewf.h], [ewf], [libewf_get_version])
++AS_IF([test "x$ax_libewf" = "xyes"],
++      [AC_CHECK_LIB([ewf], [libewf_handle_read_buffer_at_offset], [AC_DEFINE([HAVE_LIBEWF_HANDLE_READ_BUFFER_AT_OFFSET], [1], [Have libewf_handle_read_buffer_at_offset function])])]
++)
+ dnl Check if we should link with libvhdi
+ TSK_OPT_DEP_CHECK([libvhdi], [VHDI], [libvhdi], [libvhdi.h], [vhdi], [libvhdi_get_version])
+ dnl Check if we should link with libvmdk

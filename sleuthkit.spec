@@ -1,8 +1,4 @@
 #
-# TODO:
-#	- add libvhdi bcond and support
-#	- add libvmdk bcond and support
-#
 # Conditional build:
 %bcond_without	aff		# Without Advanced Forensic Format (aff) support
 %bcond_with	java		# Build Java bindings and jar file
@@ -10,23 +6,30 @@
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	4.10.1
+Version:	4.12.0
 Release:	1
 License:	IBM Public License/Common Public License
-Group:		Applications
+Group:		Applications/File
+#Source0Download: https://github.com/sleuthkit/sleuthkit/releases
 Source0:	https://github.com/sleuthkit/sleuthkit/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	c37bb35897a471c52ec18e0cbb807e9e
+# Source0-md5:	4beb0e6d3f303642a160e816914c5690
 Patch0:		libewf.patch
+Patch1:		%{name}-missing.patch
 URL:		http://www.sleuthkit.org/sleuthkit/
 %{?with_aff:BuildRequires:	afflib-devel}
 BuildRequires:	autoconf >= 2.59
 BuildRequires:	automake
 BuildRequires:	cppunit-devel >= 1.12.1
+BuildRequires:	libbfio-devel
 BuildRequires:	libewf-devel
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libtool
+BuildRequires:	libvhdi-devel
+BuildRequires:	libvmdk-devel
+BuildRequires:	libvslvm-devel
 #BuildRequires:	openssl-devel
 BuildRequires:	perl-base
+BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel >= 3
 BuildRequires:	zlib-devel
@@ -83,33 +86,36 @@ Sleuthkit shared library.
 Biblioteka współdzielona Sleuthkita.
 
 %package devel
-Summary:	Header files for %{name} library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki %{name}
+Summary:	Header files for TheSleuthKit library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki TheSleuthKit
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 %{?with_aff:Requires:	afflib-devel}
 Requires:	libewf-devel
 Requires:	libstdc++-devel >= 6:5
+Requires:	libvhdi-devel
+Requires:	libvmdk-devel
+Requires:	libvslvm-devel
 Requires:	sqlite3-devel >= 3
 Requires:	zlib-devel
 
 %description devel
-Header files for %{name} library.
+Header files for TheSleuthKit library.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki %{name}.
+Pliki nagłówkowe biblioteki TheSleuthKit.
 
 %package static
-Summary:	Static %{name} library
-Summary(pl.UTF-8):	Statyczna biblioteka %{name}
+Summary:	Static TheSleuthKit library
+Summary(pl.UTF-8):	Statyczna biblioteka TheSleuthKit
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
-Static %{name} library.
+Static TheSleuthKit library.
 
 %description static -l pl.UTF-8
-Statyczna biblioteka %{name}.
+Statyczna biblioteka TheSleuthKit.
 
 %package java
 Summary:	Java bindings for sleuthkit
@@ -126,8 +132,11 @@ Dowiązania Javy do sleuthkit.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %{__sed} -i -e 's/-static//' {samples,tests,tools/*tools}/Makefile.in
+
+%{__mv} licenses/{README.md,README_licenses.md}
 
 %build
 %{__libtoolize}
@@ -147,7 +156,10 @@ Dowiązania Javy do sleuthkit.
 rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
-     DESTDIR=$RPM_BUILD_ROOT
+	DESTDIR=$RPM_BUILD_ROOT
+
+# obsoleted by pkg-config
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/libtsk*.la
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -157,7 +169,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc API-CHANGES.txt ChangeLog.txt NEWS.txt README.md licenses/*
+%doc API-CHANGES.txt ChangeLog.txt NEWS.txt README.md licenses/{IBM-LICENSE,README_licenses.md,bsd.txt,cpl1.0.txt,mit.txt}
 %attr(755,root,root) %{_bindir}/blkcalc
 %attr(755,root,root) %{_bindir}/blkcat
 %attr(755,root,root) %{_bindir}/blkls
@@ -187,6 +199,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/srch_strings
 %attr(755,root,root) %{_bindir}/tsk_comparedir
 %attr(755,root,root) %{_bindir}/tsk_gettimes
+%attr(755,root,root) %{_bindir}/tsk_imageinfo
 %attr(755,root,root) %{_bindir}/tsk_loaddb
 %attr(755,root,root) %{_bindir}/tsk_recover
 %attr(755,root,root) %{_bindir}/usnjls
@@ -232,12 +245,11 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtsk.so
-%{_libdir}/libtsk.la
 %if %{with java}
 %attr(755,root,root) %{_libdir}/libtsk_jni.so
-%{_libdir}/libtsk_jni.la
 %endif
 %{_includedir}/tsk
+%{_pkgconfigdir}/tsk.pc
 
 %files static
 %defattr(644,root,root,755)
