@@ -1,18 +1,18 @@
 #
 # Conditional build:
-%bcond_without	aff		# Without Advanced Forensic Format (aff) support
-%bcond_with	java		# Build Java bindings and jar file
+%bcond_without	aff	# Advanced Forensic Format (aff) support
+%bcond_with	java	# Java bindings and jar file
 #
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	4.12.0
+Version:	4.12.1
 Release:	1
 License:	IBM Public License/Common Public License
 Group:		Applications/File
 #Source0Download: https://github.com/sleuthkit/sleuthkit/releases
 Source0:	https://github.com/sleuthkit/sleuthkit/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	4beb0e6d3f303642a160e816914c5690
+# Source0-md5:	fc550c509d62ce6583315a793474a852
 Patch0:		libewf.patch
 Patch1:		%{name}-missing.patch
 URL:		http://www.sleuthkit.org/sleuthkit/
@@ -260,4 +260,5 @@ rm -rf $RPM_BUILD_ROOT
 %files java
 %defattr(644,root,root,755)
 %{_javadir}/%{name}-%{version}.jar
+%{_javadir}/%{name}-caseuco-%{version}.jar
 %endif
