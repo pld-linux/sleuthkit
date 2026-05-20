@@ -6,13 +6,13 @@
 Summary:	The Sleuth Kit - an forensic toolkit for analyzing file systems and disks
 Summary(pl.UTF-8):	The Sleuth Kit - zestaw narzędzi wspomagających analizę systemów plików
 Name:		sleuthkit
-Version:	4.12.1
+Version:	4.15.0
 Release:	1
 License:	IBM Public License/Common Public License
 Group:		Applications/File
 #Source0Download: https://github.com/sleuthkit/sleuthkit/releases
 Source0:	https://github.com/sleuthkit/sleuthkit/releases/download/%{name}-%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	fc550c509d62ce6583315a793474a852
+# Source0-md5:	b78606313ce1e39ddd698027155f997d
 Patch0:		libewf.patch
 Patch1:		%{name}-missing.patch
 URL:		http://www.sleuthkit.org/sleuthkit/
@@ -235,18 +235,18 @@ rm -rf $RPM_BUILD_ROOT
 
 %files libs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libtsk.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtsk.so.19
+%{_libdir}/libtsk.so.*.*.*
+%ghost %{_libdir}/libtsk.so.23
 %if %{with java}
-%attr(755,root,root) %{_libdir}/libtsk_jni.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libtsk_jni.so.0
+%{_libdir}/libtsk_jni.so.*.*.*
+%ghost %{_libdir}/libtsk_jni.so.0
 %endif
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libtsk.so
+%{_libdir}/libtsk.so
 %if %{with java}
-%attr(755,root,root) %{_libdir}/libtsk_jni.so
+%{_libdir}/libtsk_jni.so
 %endif
 %{_includedir}/tsk
 %{_pkgconfigdir}/tsk.pc
@@ -254,7 +254,9 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/libtsk.a
-%{?with_java:%{_libdir}/libtsk_jni.a}
+%if %{with java}
+%{_libdir}/libtsk_jni.a
+%endif
 
 %if %{with java}
 %files java
